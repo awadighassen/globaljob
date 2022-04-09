@@ -1,0 +1,53 @@
+﻿@model IEnumerable<globaljob.Models.Offre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+.table{color:white;}
+h1{color:white;}
+
+</style>
+<h1 class="text-center">Gérer les offres</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center" style="border-top: none;">
+                @Html.DisplayNameFor(model => model.DatePublication)
+            </th>
+            <th class="text-center" style="border-top: none;">
+                @Html.DisplayNameFor(model => model.DateFin)
+            </th>
+            <th class="text-center" style="border-top: none;">
+                @Html.DisplayNameFor(model => model.Titre)
+            </th>
+            <th class="text-center" style="border-top: none;">
+                Gestion
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.DatePublication)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.DateFin)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Titre)
+            </td>
+            <td class="text-center">
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-warning">Lire Détails</a>
+
+            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

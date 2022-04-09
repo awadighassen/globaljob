@@ -1,0 +1,80 @@
+﻿@model globaljob.Models.Candidature
+
+@{
+    ViewData["Title"] = "Create";
+}
+<style>
+    .row {
+        color: white;
+    }
+
+    h1 {
+        color: white;
+    }
+
+    h4 {
+        color: white;
+    }
+</style>
+<h1>Create</h1>
+
+<h4>Candidature</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        @if (TempData["AlertMessage"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Félicitation!</strong> @TempData["AlertMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style=" border: none; background-color: transparent;" id="close"><span style="color: #2b5d3d; font-size:large; font-style:oblique;font-weight:bolder;">X</span></button>
+            </div>
+        }
+        @*<h1>offreId: @ViewData["offreId"]</h1>*@
+        <form asp-action="Create" enctype="multipart/form-data" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label for="Name" class="control-label">Nom Candidat:</label>
+                <input name="Name" id="Name" class="form-control" value="@ViewData["FullName"]" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="Email" class="control-label">Email:</label>
+                <input name="Email" id="Email" class="form-control" value="@ViewData["UserEmail"]" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="PhoneNumber" class="control-label">Numéro Téléphone:</label>
+                <input name="PhoneNumber" id="PhoneNumber" class="form-control" value="@ViewData["UserPhoneNumber"]" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Resume" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Resume" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success mr-2" />
+                <a asp-controller="Offre" asp-action="Consulter_Offres" class="btn btn-primary">Retourner</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/candidature.js"></script>
+    <script type="text/javascript">
+        document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+            var name = document.getElementById("customFile").files[0].name;
+            var nextSibling = e.target.nextElementSibling
+            nextSibling.innerText = name
+        })
+    </script>
+}

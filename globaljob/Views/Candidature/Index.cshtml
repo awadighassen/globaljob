@@ -1,0 +1,49 @@
+﻿@model IEnumerable<globaljob.Models.Candidature>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<style>
+.table{color:white;}
+h1{color:white;}
+</style>
+<h1 class="text-center">Liste Candidatures</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="text-center" style="border-top: none;">
+                Nom Candidat
+            </th>
+            <th class="text-center" style="border-top: none;">
+                Email
+            </th>
+            <th class="text-center" style="border-top: none;">
+                Numéro Téléphone
+            </th>
+            <th class="text-center" style="border-top: none;">
+                Gérer
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td class="text-center">
+                    @item.Email
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td class="text-center">
+                    <a href="@item.ResumeURL" class="btn btn-warning" target="_blank">Consulter CV</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger ml-1">Supprimer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

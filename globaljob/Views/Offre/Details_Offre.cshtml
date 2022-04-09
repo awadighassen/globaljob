@@ -1,0 +1,48 @@
+﻿@model globaljob.Models.Offre
+@{
+    ViewData["Title"] = "Details_Offre";
+    globaljob.Controllers.CandidatureController.offreId = Model.Id;
+}
+<style>
+.row{color:white;}
+h1{color:white;}
+h4{color:white;}
+a{color:white;}
+a:hover{color:white;}
+</style>
+<h1>Details_Offre</h1>
+
+<div>
+    <h4>Offre</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DatePublication)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DatePublication)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateFin)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateFin)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Consulter_Offres" class="btn btn-primary">Retouner</a>
+    <a class="btn btn-warning" asp-controller="Candidature" asp-action="Create">Postuler</a> @*asp-route-id="@Model.Id"*@
+</div>
