@@ -90,7 +90,11 @@ namespace globaljob.Areas.Identity.Pages.Account
                     returnUrl ??= Url.Content("~/Offre/Consulter_Offres");
                 }
                 else  if (_userManager.IsInRoleAsync(user, "SuperAdmin").Result)
-            {
+                {
+                    returnUrl ??= Url.Content("~/Admin/");
+                }
+                else
+                {
                     returnUrl ??= Url.Content("~/Admin/");
                 }
 

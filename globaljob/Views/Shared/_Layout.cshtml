@@ -58,7 +58,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListUsersToPromote">Affecter Privilèges</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Create">Ajouter Admin</a>
                                 </li>
                             }
 
@@ -68,6 +68,13 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Offre" asp-action="Consulter_Offres">Consulter Offres</a>
                                 </li>
 
+                            }
+
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Comptes</a>
+                                </li>
                             }
                         }
                     </ul>

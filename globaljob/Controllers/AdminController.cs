@@ -9,6 +9,9 @@ using globaljob.Data;
 using globaljob.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace globaljob.Controllers
 {
@@ -16,14 +19,17 @@ namespace globaljob.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        private readonly IEmailSender _emailSender;
+
+        public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: Admin
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Index()
         {
             var UsersList = _context.Users.ToList();
@@ -58,6 +64,7 @@ namespace globaljob.Controllers
         [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> AssignAdmin(string id)
         {
+
             var user = _userManager.FindByIdAsync(id).Result;
             await _userManager.AddToRoleAsync(user, "Admin");
             return RedirectToAction(nameof(Index));
@@ -91,23 +98,32 @@ namespace globaljob.Controllers
         }
 
         // GET: Admin/Create
-   
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         // POST: Admin/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Email,PhoneNumber,ResumeURL,OffreId")] Candidature candidature)
+        public async Task<IActionResult> Create(IFormCollection form) 
         {
+            ApplicationUser user = null;
             if (ModelState.IsValid)
             {
-                _context.Add(candidature);
-                await _context.SaveChangesAsync();
+                user = new ApplicationUser { UserName = form["Email"].ToString(), Email = form["Email"].ToString(), FirstName = form["FirstName"].ToString(), LastName = form["LastName"].ToString(),Address = form["Address"].ToString()};
+                user.EmailConfirmed = true;
+                var result = await _userManager.CreateAsync(user, form["Password"].ToString());
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(user, "Admin");
+                }
+               
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OffreId"] = new SelectList(_context.Offre, "Id", "Description", candidature.OffreId);
-            return View(candidature);
+            return View(user);
         }
 
         // GET: Admin/Edit/5

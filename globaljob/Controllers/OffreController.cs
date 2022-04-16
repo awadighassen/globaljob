@@ -189,7 +189,12 @@ namespace globaljob.Controllers
                 .FirstOrDefaultAsync(m => m.OffreId == id);
 
             _context.Offre.Remove(offre);
-            _context.Candidature.Remove(candidature);
+
+            if (candidature is not null)
+            {
+                _context.Candidature.Remove(candidature);
+            }
+                
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

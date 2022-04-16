@@ -3,7 +3,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Comptes";
+    ViewData["Title"] = "Assigner des administrateurs";
 }
 <style>
     .table {
@@ -13,10 +13,8 @@
     h1 {
         color: white;
     }
-
-    a {
 </style>
-<h1>Comptes</h1>
+<h1 class="text-center"> @ViewData["Title"]</h1>
 
 <table class="table table-hover">
     <thead>
