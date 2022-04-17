@@ -29,7 +29,7 @@ namespace globaljob.Controllers
         }
 
         // GET: Admin
-        [Authorize(Roles = "SuperAdmin,Admin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> Index()
         {
             var UsersList = _context.Users.ToList();
@@ -45,8 +45,8 @@ namespace globaljob.Controllers
             return View(ValidUsersList);
         }
 
-        [Authorize(Roles = "SuperAdmin")]
-        public async Task<IActionResult> ListUsersToPromote()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListAccountsAdmin()
         {
             var UsersList = _context.Users.ToList();
             List<ApplicationUser> ValidUsersList = new();
@@ -180,7 +180,7 @@ namespace globaljob.Controllers
         }
 
         // GET: Admin/Delete/5
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -201,12 +201,19 @@ namespace globaljob.Controllers
         // POST: Admin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin,Admin")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            var userType = _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User)).Result;
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
+
+            if (await _userManager.IsInRoleAsync(userType, "Admin"))
+            {
+                return RedirectToAction(nameof(ListAccountsAdmin));
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

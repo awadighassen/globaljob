@@ -3,7 +3,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Assigner des administrateurs";
+    ViewData["Title"] = "Gérer les comptes";
 }
 <style>
     .table {
@@ -43,7 +43,8 @@
                     @user[0]
                 </td>
                 <td class="text-center">
-                    <a asp-action="AssignAdmin" asp-route-id="@item.Id" class="btn btn-primary">Promouvoir</a>
+                    @*<a asp-action="AssignAdmin" asp-route-id="@item.Id" class="btn btn-primary">Promouvoir</a>*@
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Supprimer</a>
                 </td>
             </tr>
         }

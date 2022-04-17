@@ -95,7 +95,7 @@ namespace globaljob.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    returnUrl ??= Url.Content("~/Admin/");
+                    returnUrl ??= Url.Content("~/Admin/ListAccountsAdmin");
                 }
 
 
